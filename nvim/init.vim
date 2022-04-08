@@ -47,10 +47,11 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 " Autopairing
 Plug 'windwp/nvim-autopairs'
-
+Plug 'mfussenegger/nvim-jdtls'
 """"""""""""""""""""""""""
 """"""""""""""""""""""""""
 
+Plug 'hashivim/vim-terraform'
 " Javascript Dev
 Plug 'evanleck/vim-svelte'
 Plug 'pangloss/vim-javascript'
@@ -346,4 +347,3 @@ autocmd FileType vimwiki setlocal et ci pi sts=0 sw=4 ts=4 mouse=n spell tw=80
 autocmd BufWritePost *.tex silent call Tex_CompileLatex()
 let g:Tex_PromptedEnvironments = 'equation,definition,proof,lemma,enumerate,itemize,figure,table'
 autocmd FileType tex setlocal tw=80
-
