@@ -1,0 +1,4 @@
+cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+cmd + shift - return : /Applications/Alacritty.app/Contents/MacOS/alacritty -v -e tmux at
+cmd + shift - w : /Applications/Firefox.app/Contents/MacOS/firefox -P default-release --new-window
+cmd + shift - p : /Applications/Firefox.app/Contents/MacOS/firefox -P Tor --new-window
