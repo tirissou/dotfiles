@@ -105,6 +105,10 @@ function jdk() {
  }
 # Load completions
 autoload -U compinit && compinit
+
+# Direnv for local direcotry ENV setups
+eval "$(direnv hook zsh)"
 # Syntax highlighting
 zinit ice lucid wait"!0"
 zinit load zsh-users/zsh-syntax-highlighting
+
