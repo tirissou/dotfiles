@@ -48,6 +48,11 @@ Plug 'saadparwaiz1/cmp_luasnip'
 " Autopairing
 Plug 'windwp/nvim-autopairs'
 Plug 'mfussenegger/nvim-jdtls'
+" git
+Plug 'nvim-lua/plenary.nvim'
+Plug 'petertriho/cmp-git'
+" autocompletion
+Plug 'ray-x/lsp_signature.nvim'
 """"""""""""""""""""""""""
 """"""""""""""""""""""""""
 
@@ -98,49 +103,6 @@ let g:prettier#autoformat_require_pragma = 0
 let g:prettier#exec_cmd_path = '/usr/local/bin/prettier'
 " au BufWritePre *.css,*.svelte,*.pcss,*.html,*.ts,*.js,*.json PrettierAsync
 
-" COC
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-" function! s:show_documentation()
-  " if (index(['vim','help'], &filetype) >= 0)
-    " execute 'h '.expand('<cword>')
-  " elseif (coc#rpc#ready())
-    " call CocActionAsync('doHover')
-  " else
-  "   execute '!' . &keywordprg . " " . expand('<cword>')
-  " endif
-" endfunction
-" " some remaps
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-" " Make <CR> auto-select the first completion item and notify coc.nvim to
-" " format on enter, <cr> could be remapped by other vim plugin
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm(): "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-" nmap <silent> <leader>r <Plug>(coc-rename)
-" " Mappings for CoCList
-" " Show all diagnostics.
-" nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-" " Manage extensions.
-" nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-" " Show commands.
-" nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-" " Find symbol of current document.
-" nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" " Search workspace symbols.
-" nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-" nnoremap <silent><nowait> <space>f  <Plug>(coc-fix-current)
-" " Do default action for next item.
-" " nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" " Do default action for previous item.
-" " nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-" " Resume latest coc list.
-" nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
-
 
 " Enable true color
 " set t_8f=^[[38;2;%lu;%lu;%lum        " set foreground color
@@ -159,42 +121,10 @@ elseif hr >= 0
 set background=dark
 endif
 
-" COC
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-" inoremap <silent><expr> <c-space> coc#refresh()
-
-
-
 set go=a
 set mouse=a
 set nohlsearch
 set clipboard+=unnamedplus
-
-" ALE config
-" let g:ale_fixers = {}
-" let g:ale_fixers['python'] = ['autopep8']
-" let g:ale_linters = { 'python': ['flake8'] }
-" " Do NOT fix files automatically on save
-" let g:ale_fix_on_save = 0
-" let g:ale_set_highlights = 0
-
-" Shortcutting split navigation, saving a keypress:
-	" noremap <C-h> <C-w><left>
-	" noremap <C-j> <C-w><down>
-	" noremap <C-k> <C-w><up>
-	" noremap <C-l> <C-w><right>
-	" map <C-w>h <C-w>H
-	" map <C-w>j <C-w>J
-	" map <C-w>k <C-w>K
-	" map <C-w>l <C-w>L
 
 " FZF
 	map <leader>b :Buffers<Enter>
@@ -205,26 +135,6 @@ set clipboard+=unnamedplus
 " let g:vcoolor_disable_mappings = 1
 " let g:vcoolor_map = '<A-c>'
 " nmap <leader>c	:VCoolor<CR>
-
-" " SVELTE
-" if !exists('g:context_filetype#same_filetypes')
-"   let g:context_filetype#filetypes = {}
-" endif
-
-" let g:context_filetype#filetypes.svelte =
-" \ [
-" \   {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
-" \   {
-" \     'filetype': 'typescript',
-" \     'start': '<script\%( [^>]*\)\? \%(ts\|lang="\%(ts\|typescript\)"\)\%( [^>]*\)\?>',
-" \     'end': '',
-" \   },
-" \   {'filetype' : 'css', 'start' : '<style \?.*>', 'end' : '</style>'},
-" \ ]
-
-" let g:ft = ''
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""'
 
 "" Whether to include the types of the completions in the result data. Default: 0
 "let g:deoplete#sources#ternjs#types = 1
@@ -336,7 +246,7 @@ set clipboard+=unnamedplus
 " Save file as sudo on files that require root permission
 	cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
-let g:vimwiki_list = [{ 'path':'~/Notebook/', 'path_html': '~/Notebook/.html/' }]
+let g:vimwiki_list = [{ 'path':'~/Notebook/', 'path_html': '~/Notebook/.html/', 'auto_tags': 1 }]
 autocmd BufRead,BufNewFile $HOME/Notebook/* setlocal autochdir
 autocmd BufRead,BufNewFile $HOME/Notebook/Spring2021/HistoireDuCorps/* setlocal dir=$HOME spelllang+=fr
 autocmd BufWritePre $HOME/Notebook/*.wiki silent VimwikiTOC
