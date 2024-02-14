@@ -53,6 +53,8 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'petertriho/cmp-git'
 " autocompletion
 Plug 'ray-x/lsp_signature.nvim'
+" symbols outline
+Plug 'simrat39/symbols-outline.nvim'
 """"""""""""""""""""""""""
 """"""""""""""""""""""""""
 
@@ -60,6 +62,8 @@ Plug 'hashivim/vim-terraform'
 " Javascript Dev
 Plug 'evanleck/vim-svelte'
 Plug 'pangloss/vim-javascript'
+" yaml
+Plug 'pedrohdz/vim-yaml-folds'
 
 " Git
 Plug 'jreybert/vimagit'
@@ -115,7 +119,7 @@ autocmd vimenter * ++nested colorscheme gruvbox
 let hr = (strftime('%H'))
 if hr >= 17
 set background=dark
-elseif hr >= 8
+elseif hr >= 7
 set background=light
 elseif hr >= 0
 set background=dark
@@ -130,6 +134,9 @@ set clipboard+=unnamedplus
 	map <leader>b :Buffers<Enter>
 	map <leader>f :Files<Enter>
 	map <leader>g :Rg<Enter>
+
+" Symbols Outline
+nnoremap <leader>s :SymbolsOutline<Enter>
 " Color picker
 " let g:vcoolor_lowercase = 1
 " let g:vcoolor_disable_mappings = 1
@@ -211,8 +218,6 @@ set clipboard+=unnamedplus
 	map <leader>n :NERDTreeToggle<CR>
 	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Check file in shellcheck:
-	map <leader>s :!clear && shellcheck %<CR>
 
 " Open my bibliography file in split
 	" map <leader>b :vsp<space>$BIB<CR>
@@ -246,7 +251,8 @@ set clipboard+=unnamedplus
 " Save file as sudo on files that require root permission
 	cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
-let g:vimwiki_list = [{ 'path':'~/Notebook/', 'path_html': '~/Notebook/.html/', 'auto_tags': 1 }]
+let g:vimwiki_list = [ { 'name': 'jobhunt', 'path':'~/projects/job-hunt', 'path_html': '~/.wikis/job-hunt', 'auto_tags': 1}]
+    " { 'path':'~/Notebook/', 'path_html': '~/Notebook/.html/', 'auto_tags': 1 },
 autocmd BufRead,BufNewFile $HOME/Notebook/* setlocal autochdir
 autocmd BufRead,BufNewFile $HOME/Notebook/Spring2021/HistoireDuCorps/* setlocal dir=$HOME spelllang+=fr
 autocmd BufWritePre $HOME/Notebook/*.wiki silent VimwikiTOC

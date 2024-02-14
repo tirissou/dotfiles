@@ -17,7 +17,7 @@ cmp.setup({
     mapping = cmp.mapping.preset.insert({
 	['<C-b>'] = cmp.mapping.scroll_docs(-4),
 	['<C-f>'] = cmp.mapping.scroll_docs(4),
-	['<C-Space>'] = cmp.mapping.complete(),
+	['<C-c>'] = cmp.mapping.complete(),
 	['<C-e>'] = cmp.mapping.abort(),
 	['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
@@ -27,6 +27,7 @@ cmp.setup({
 	{ name = 'luasnip' }, -- For luasnip users.
 	-- { name = 'ultisnips' }, -- For ultisnips users.
 	-- { name = 'snippy' }, -- For snippy users.
+
     }, {
 	{ name = 'buffer' },
     })
@@ -36,7 +37,7 @@ cmp.setup({
 cmp.setup.filetype('gitcommit', {
     sources = cmp.config.sources({
 	{ name = 'git' }, -- You can specify the `cmp_git` source if you were installed it.
-    }, {
+    -- }, {
 	{ name = 'buffer' },
     })
 })
@@ -64,9 +65,30 @@ cmp.setup.cmdline(':', {
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 local nvim_lsp = require('lspconfig')
-nvim_lsp.pyright.setup { }
 require('nvim-autopairs').setup{}
 require('cmp_git').setup()
+require("symbols-outline").setup({
+    fold_markers = { '+', '-' },
+    highlight_hovered_item = true,
+    show_guides = true,
+    auto_preview = false,
+    position = 'right',
+    relative_width = true,
+    width = 25,
+    auto_close = true,
+    show_numbers = false,
+    show_relative_numbers = true,
+    show_symbol_details = true,
+    preview_bg_highlight = 'Pmenu',
+    autofold_depth = 1,
+    auto_unfold_hover = true,
+    symbols = {
+	Package = {icon = "📦", hl = "TSNamespace"},
+	Variable = {icon = "𝔁", hl = "TSConstant"},
+	Constant = {icon = "𝒸", hl = "TSConstant"},
+    }
+
+})
 require('lsp_signature').setup({
     bind = true,
     always_trigger = true,
@@ -109,7 +131,7 @@ end
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', "tailwindcss"}
+local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'tailwindcss', 'dockerls', 'terraformls', 'svelte'}
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
 	capabilities = capabilities,
@@ -119,3 +141,21 @@ for _, lsp in ipairs(servers) do
 	}
     }
 end
+
+-- Reference: https://github.com/lithammer/nvim-diagnosticls
+-- nvim_lsp.diagnosticls.setup({
+--   filetypes = {
+--       -- "python",
+--       "terraform",
+--   },
+--   init_options = {
+--     linters = {
+--       terraform_validate = {
+-- 	  command = "terraform validate --json"
+--       }
+--     },
+--     filetypes = {
+--       terraform = "terraform_validate"
+--     },
+--   },
+-- })
