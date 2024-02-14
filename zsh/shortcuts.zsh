@@ -1,0 +1,2 @@
+alias cf="$HOME/.config"
+
